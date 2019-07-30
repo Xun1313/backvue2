@@ -1,3 +1,3 @@
 module.exports={
-  publicPath:'/admin-dashboard/dist'
+  publicPath:'/backvue2/dist'
 }
