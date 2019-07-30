@@ -72,7 +72,18 @@
               </div>
               <div class="modal-body">
                 <div class="add">
-                  <div class="upload">123</div>
+                  <div class="upload">
+                    <div class="upload-drag">
+                      <input type="file" name="file" id="file" />
+                      <div class="bg">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag an image or click here to upload…</p>
+                      </div>
+                    </div>
+                    <div class="upload-pic">
+                      <img :src="'https://picsum.photos/100/100?image='+(1000+index)" class="img-fluid" v-for="(item, index) in 5" :key="index"/>
+                    </div>
+                  </div>
                   <div class="info">
                     <div class="describe">
                       <div class="describe-title">Product Discription</div>
@@ -89,12 +100,12 @@
                       <div class="price-content">
                         <p>Original</p>
                         <p>
-                          123
+                          <input type="text" value="1000" />
                           <!-- {{item.original}} -->
                         </p>
                         <p>Discount</p>
                         <p>
-                          123
+                          <input type="text" value="500" />
                           <!-- {{item.discount}} -->
                         </p>
                       </div>
@@ -102,21 +113,40 @@
 
                     <div class="specification">
                       <div class="specification-title">specification</div>
-                      <div class="specification-content">
+                      <div
+                        class="specification-content"
+                        v-for="(item, index) in specificationNum"
+                        :key="index"
+                      >
                         <p>Size</p>
-                        <p>L</p>
+                        <p class="size">
+                          <select class="size-num">
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="S">S</option>
+                          </select>
+                        </p>
                         <p>Color</p>
-                        <p>Gray</p>
+                        <p>
+                          <input type="text" value="Gray" />
+                        </p>
                         <p>Inventory</p>
-                        <p>15</p>
+                        <p>
+                          <input type="text" value="15" />
+                        </p>
                       </div>
+                    </div>
+
+                    <div class="addnew">
+                      <p @click="specificationNum++">ADD NEW SPECIFICATION</p>
+                      <i class="fas fa-plus"></i>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">SAVE DRAFT</button>
-                <button type="button" class="btn btn-primary">PUBLISH</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">PUBLISH</button>
               </div>
             </div>
           </div>
@@ -153,10 +183,7 @@
             <!-- Product -->
             <div class="product">
               <input type="checkbox" v-model="item.ischecked" />
-              <!-- <img :src="$faker().image.imageUrl()" class="img-fluid" />
-              <p>{{$faker().commerce.product()}}</p>-->
-              <!-- <img :src="item.product.imgUrl" class="img-fluid" /> -->
-              <img :src=""https://picsum.photos/70/70?image="+(990+index)" class="img-fluid" />
+              <img :src='"https://picsum.photos/70/70?image="+(990+index)' class="img-fluid" />
               <p>{{item.product.p}}</p>
             </div>
           </td>
@@ -232,7 +259,7 @@
 
           <td>
             <!-- Status -->
-            <div class="btn-group">
+            <div class="btn-group dropdown">
               <button
                 type="button"
                 class="btn dropdown-toggle"
@@ -263,6 +290,7 @@ var faker = require("faker");
 export default {
   data() {
     return {
+      specificationNum: 1,
       titleData: [
         "Product",
         "Original",
@@ -480,6 +508,30 @@ export default {
         e.ischecked = false;
       });
     }
+  },
+  mounted() {
+    /* const bg = document.querySelector(".bg");
+    bg.addEventListener("dragover", function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    });
+    bg.addEventListener("dragenter", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log(e.currentTarget);
+      e.currentTarget.classList.add("uploadStyle");
+    });
+    bg.addEventListener("dragleave", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log(e.currentTarget);
+      //this.className='upload-bg'
+      e.currentTarget.classList.remove("uploadStyle");
+    });
+    bg.addEventListener("drag", function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }); */
   }
 };
 </script>
@@ -489,26 +541,55 @@ export default {
 .price-content,
 .specification-content {
   p {
-    padding: 15px;
-    border-bottom: 1px rgb(165, 162, 162)  solid;
-    border-top: 1px rgb(165, 162, 162)  solid;
+    width: 130px;
+    text-align: center;
+    margin: 0;
+    //padding: 10px;
+    font-size: 16px;
+    border-bottom: 1px rgb(165, 162, 162) solid;
+    border-top: 1px rgb(165, 162, 162) solid;
   }
   p:nth-child(odd) {
+    padding: 10px;
     background-color: rgb(235, 230, 230);
     border-left: 1px rgb(165, 162, 162) solid;
-    border-right: 1px rgb(165, 162, 162)  solid;
-    color: rgba(0, 0, 0, 0.5)
+    border-right: 1px rgb(165, 162, 162) solid;
+    color: rgba(0, 0, 0, 0.5);
   }
   p:nth-child(even) {
-    border-right: 1px rgb(165, 162, 162)  solid;
-    margin-right: 10px
+    border-right: 1px rgb(165, 162, 162) solid;
+    margin-right: 10px;
   }
 }
 .specification {
+  margin-bottom: 20px;
   &-content {
     display: flex;
+    margin-bottom: 5px;
+    .size {
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      &-num {
+        padding: 10px;
+        outline: none;
+        border: none;
+      }
+    }
   }
 }
+p {
+  input {
+    display: block;
+    width: 100%;
+    outline: none;
+    border: none;
+    text-align: center;
+    padding: 10px;
+  }
+}
+
 .price {
   &-content {
     display: flex;
@@ -519,15 +600,72 @@ export default {
   justify-content: space-between;
 }
 .upload {
-  outline: 1px solid red;
+  width: 50%;
+  margin: 0 20px;
+  text-align: center;
+  margin: 0px 0 45px 0;
+  &-drag {
+    background-color: #ebebeb;
+    margin-bottom: 20px;
+    #file {
+      display: block;
+      width: 100%;
+      padding: 50px 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .bg {
+      margin-top: -30%;
+      padding: 30px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      i {
+        color: gray;
+        font-size: 30px;
+      }
+      p {
+        font-size: 16px;
+        color: gray;
+        margin: 0;
+      }
+    }
+  }
+  &-pic {
+    display: flex;
+    flex-wrap: wrap;
+    img {
+      width: auto;
+      height: auto;
+      margin: 0 5px 5px 0;
+    }
+  }
 }
 .info {
+  width: 50%;
+  margin: 0 20px;
   .describe {
     display: flex;
     flex-direction: column;
     * {
       margin-bottom: 15px;
     }
+  }
+  .addnew {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    p {
+      margin: 0 5px 0 0;
+    }
+  }
+  .addnew:hover {
+    background-color: lighten(black, 10%);
   }
 }
 .center {
@@ -558,6 +696,10 @@ export default {
 }
 .edit {
   display: flex;
+  margin: 20px 0;
+  &-option{
+    margin-right: 15px;
+  }
   &-status {
     margin-right: auto;
   }
@@ -574,6 +716,19 @@ tr td:first-child {
 }
 
 tr td:last-child {
-  max-width: 100px;
+  max-width: 130px;
+}
+.dropdown-item:active {
+  background-color: #6c757d;
+  outline: none;
+}
+.modal-dialog-centered {
+  justify-content: center;
+  .modal-content {
+    width: auto;
+  }
+}
+.uploadStyle {
+  border: 3px black dashed;
 }
 </style>

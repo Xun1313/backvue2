@@ -46,24 +46,25 @@
 
       <!-- section -->
       <div class="edit-section btn-group">
-        <button
-          type="button"
-          class="btn btn-secondary dropdown-toggle"
-          data-toggle="dropdown"
-          data-display="static"
-        >EDIT SECTION</button>
-        <div class="dropdown-menu dropdown-menu-lg-right">
+        <div class="dropdown">
           <button
-            class="dropdown-item"
             type="button"
-            v-for="item in titleData"
-            :key="item"
-            @click="dataHandler(item)"
-          >{{item}}</button>
+            class="btn btn-secondary dropdown-toggle"
+            data-toggle="dropdown"
+            data-display="static"
+          >EDIT SECTION</button>
+          <div class="dropdown-menu dropdown-menu-lg-right">
+            <button
+              class="dropdown-item"
+              type="button"
+              v-for="item in titleData"
+              :key="item"
+              @click="dataHandler(item)"
+            >{{item}}</button>
+          </div>
         </div>
       </div>
     </div>
-
     <table class="table">
       <thead>
         <tr>
@@ -152,22 +153,24 @@
           </td>
 
           <td>
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn dropdown-toggle"
-                :class="[item.status==='Paid'?'btn-success':'',item.status==='Unpaid'?'btn-secondary':'',item.status==='Shipping'?'btn-warning':'',item.status==='Done'?'btn-primary':'']"
-                data-toggle="dropdown"
-                data-display="static"
-              >{{item.status}}</button>
-              <div class="dropdown-menu dropdown-menu-lg-right">
+            <div class="dropdown">
+              <div class="btn-group">
                 <button
-                  class="dropdown-item"
                   type="button"
-                  @click="item.status=status"
-                  v-for="status in statusItem"
-                  :key="status"
-                >{{status}}</button>
+                  class="btn dropdown-toggle"
+                  :class="[item.status==='Paid'?'btn-success':'',item.status==='Unpaid'?'btn-secondary':'',item.status==='Shipping'?'btn-warning':'',item.status==='Done'?'btn-primary':'']"
+                  data-toggle="dropdown"
+                  data-display="static"
+                >{{item.status}}</button>
+                <div class="dropdown-menu dropdown-menu-lg-right">
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    @click="item.status=status"
+                    v-for="status in statusItem"
+                    :key="status"
+                  >{{status}}</button>
+                </div>
               </div>
             </div>
           </td>
@@ -477,7 +480,7 @@ export default {
       } else {
         this.isopen.push(val);
       }
-    },
+    }
   }
   /* watch: {
     ['titleData.isopen']:{
@@ -530,8 +533,16 @@ tr td {
 }
 .edit {
   display: flex;
+  margin: 20px 0;
+  &-option {
+    margin-right: 15px;
+  }
   &-status {
     margin-right: auto;
   }
+}
+.dropdown-item:active {
+  background-color: #6c757d;
+  outline: none;
 }
 </style>

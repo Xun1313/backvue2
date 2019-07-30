@@ -2,7 +2,10 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/bootstrap/bootstrap-grid.css';
+import './assets/bootstrap/bootstrap-reboot.css';
+import './assets/bootstrap/bootstrap.css';
+import './assets/bootstrap/docs.css';
 Vue.use(require('vue-faker'))
 
 /* import iView from 'iview';

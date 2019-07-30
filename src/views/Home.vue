@@ -75,13 +75,13 @@
         <div class="device-title">Device Usage</div>
         <div class="device-content">
           <div class="device-content-chart">
-            <chart2 :device='device'></chart2>
+            <chart2 :device="device"></chart2>
           </div>
           <div class="device-content-data">
             <!-- <div class="device-content-data-title">
               <div class="title1">Device</div>
               <div class="title2">Progress</div>
-            </div> -->
+            </div>-->
             <table class="table device-content-data-value">
               <thead>
                 <tr>
@@ -99,7 +99,7 @@
             <!-- <div class="device-content-data-value" >
               <div class="model">{{item.model}}</div>
               <div class="progresses">{{item.progress}}%</div>
-            </div> -->
+            </div>-->
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@
         justify-content: space-around;
         font-size: 22px;
       } */
-      
+
       &-value {
         /* display: flex;
         justify-content: space-around;
@@ -208,12 +208,13 @@
         } */
         text-align: center;
         margin-top: 20px;
-        .title1,.title2 {
-        //display: flex;
-        font-weight: bold;
-        margin-bottom: 15px;
-        //justify-content: space-around;
-      }
+        .title1,
+        .title2 {
+          //display: flex;
+          font-weight: bold;
+          margin-bottom: 15px;
+          //justify-content: space-around;
+        }
       }
     }
     &-chart {
@@ -305,6 +306,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin: 20px 0;
   &-result {
     margin-right: 10px;
   }
@@ -349,23 +351,23 @@ export default {
       device: [
         {
           model: "IOS",
-          progress: Math.floor(Math.random()*20+10)
+          progress: Math.floor(Math.random() * 20 + 10)
         },
         {
           model: "Android",
-          progress: Math.floor(Math.random()*20+10)
+          progress: Math.floor(Math.random() * 20 + 10)
         },
         {
           model: "Blackberry",
-          progress: Math.floor(Math.random()*20+10)
+          progress: Math.floor(Math.random() * 20 + 10)
         },
         {
           model: "Symbian",
-          progress: Math.floor(Math.random()*20+10)
+          progress: Math.floor(Math.random() * 20 + 10)
         },
         {
           model: "Others",
-          progress: Math.floor(Math.random()*20+10)
+          progress: Math.floor(Math.random() * 20 + 10)
         }
       ],
       chart_data: [
