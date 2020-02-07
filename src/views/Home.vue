@@ -1,11 +1,18 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="date">
       <template v-for="item in allDateRange">
         <div
           class="date-result"
-          v-if="date===item.bigDate"
-        >{{moment().add(-1,item.smallDate).format('YYYY-MM-DD')}}>{{moment().format('YYYY-MM-DD')}}</div>
+          v-if="date === item.bigDate"
+          :key="item.bigDate"
+        >
+          {{
+            moment()
+              .add(-1, item.smallDate)
+              .format('YYYY-MM-DD')
+          }}>{{ moment().format('YYYY-MM-DD') }}
+        </div>
       </template>
       <div class="btn-group date-picker">
         <button
@@ -14,15 +21,19 @@
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-        >{{date}}</button>
+        >
+          {{ date }}
+        </button>
         <div class="dropdown-menu dropdown-menu-right">
           <button
             class="dropdown-item"
             type="button"
             v-for="item in allDateRange"
             :key="item.bigDate"
-            @click="changeDate(item.bigDate,item.num)"
-          >{{item.bigDate}}</button>
+            @click="changeDate(item.bigDate, item.num)"
+          >
+            {{ item.bigDate }}
+          </button>
         </div>
       </div>
     </div>
@@ -36,12 +47,14 @@
       >
         <div class="home-title-item-top">
           <div>
-            <p class="home-title-word">{{item.title}}</p>
-            <p class="home-title-money">${{$faker().commerce.price()}}</p>
+            <p class="home-title-word">{{ item.title }}</p>
+            <p class="home-title-money">${{ $faker().commerce.price() }}</p>
           </div>
           <i class="fas fa-2x" :class="item.pic"></i>
         </div>
-        <div class="home-title-item-bottom">+{{Math.round(Math.random()*15+1)}}% From Previous Month</div>
+        <div class="home-title-item-bottom">
+          +{{ Math.round(Math.random() * 15 + 1) }}% From Previous Month
+        </div>
       </div>
     </div>
 
@@ -49,21 +62,30 @@
     <section class="chart">
       <chart1 :date="date" :dateNum="dateNum" class="chart1"></chart1>
       <div class="chart-items">
-        <div class="chart-items-item bg-light" v-for="item in chart_data" :key="item.title">
-          <div class="chart-items-item-title">{{item.title}}</div>
+        <div
+          class="chart-items-item bg-light"
+          v-for="item in chart_data"
+          :key="item.title"
+        >
+          <div class="chart-items-item-title">{{ item.title }}</div>
           <div class="w-100"></div>
-          <div class="chart-items-item-value">{{Math.floor(Math.random()*4700+300)}}</div>
+          <div class="chart-items-item-value">
+            {{ Math.floor(Math.random() * 4700 + 300) | currency }}
+          </div>
           <div
             class="chart-items-item-level"
-            :class="[item.level?'text-success':'text-danger']"
-          >{{item.level?'+':'-'}}{{(Math.random()*3+0.1).toFixed(2)}}%</div>
+            :class="[item.level ? 'text-success' : 'text-danger']"
+          >
+            {{ item.level ? '+' : '-'
+            }}{{ (Math.random() * 3 + 0.1).toFixed(2) }}%
+          </div>
           <div class="w-100"></div>
           <div class="progress chart-items-item-progress">
             <div
               class="progress-bar"
               :class="item.progress_color"
               role="progressbar"
-              :style="{width:Math.random()*101+'%'}"
+              :style="{ width: Math.random() * 101 + '%' }"
             ></div>
           </div>
         </div>
@@ -91,8 +113,8 @@
               </thead>
               <tbody>
                 <tr v-for="item in device" :key="item.model">
-                  <td class="model">{{item.model}}</td>
-                  <td class="progresses">{{item.progress}}</td>
+                  <td class="model">{{ item.model }}</td>
+                  <td class="progresses">{{ item.progress }}</td>
                 </tr>
               </tbody>
             </table>
@@ -111,25 +133,35 @@
             <div class="browser-icon">
               <i class="fab fa-2x" :class="item.icon"></i>
             </div>
-            <div class="browser-name">{{item.name}}</div>
+            <div class="browser-name">{{ item.name }}</div>
           </div>
           <div class="browser-value-level">
-            <div class="browser-value">{{Math.round(Math.random()*49000+1000)}}</div>
+            <div class="browser-value">
+              {{ Math.round(Math.random() * 49000 + 1000) | currency }}
+            </div>
             <div class="browser-level">
               <div class="browser-level-detail">
                 <p>
-                  {{item.random?'INCREASE':'DECLINE'}}
+                  {{ item.random ? 'INCREASE' : 'DECLINE' }}
                   <span
-                    :class="[item.random?'text-success':'text-danger']"
-                  >{{Math.floor(Math.random()*1000*+1)}}</span>
+                    :class="[item.random ? 'text-success' : 'text-danger']"
+                    >{{ Math.floor(Math.random() * 1000 * +1) }}</span
+                  >
                   VIEWS
                 </p>
-                <p>last week: {{Math.floor(Math.random()*40000+10000)}}</p>
+                <p>
+                  last week: {{ Math.floor(Math.random() * 40000 + 10000) }}
+                </p>
               </div>
               <i
                 class="fas"
-                :class="[item.random?'fa-arrow-up text-success':'fa-arrow-down text-danger']"
-              >{{Math.round(Math.random()*20+10)}}%</i>
+                :class="[
+                  item.random
+                    ? 'fa-arrow-up text-success'
+                    : 'fa-arrow-down text-danger'
+                ]"
+                >{{ Math.round(Math.random() * 20 + 10) }}%</i
+              >
             </div>
           </div>
         </div>
@@ -284,7 +316,7 @@
         }
       }
       .browser-level-detail:after {
-        content: "";
+        content: '';
         display: block;
         width: 50px;
         height: 50px;
@@ -342,144 +374,144 @@
 </style>
 
 <script>
-var moment = require("moment");
-import chart1 from "../components/chart1";
-import chart2 from "../components/chart2";
+var moment = require('moment')
+import chart1 from '../components/chart1'
+import chart2 from '../components/chart2'
 export default {
   data() {
     return {
       device: [
         {
-          model: "IOS",
+          model: 'IOS',
           progress: Math.floor(Math.random() * 20 + 10)
         },
         {
-          model: "Android",
+          model: 'Android',
           progress: Math.floor(Math.random() * 20 + 10)
         },
         {
-          model: "Blackberry",
+          model: 'Blackberry',
           progress: Math.floor(Math.random() * 20 + 10)
         },
         {
-          model: "Symbian",
+          model: 'Symbian',
           progress: Math.floor(Math.random() * 20 + 10)
         },
         {
-          model: "Others",
+          model: 'Others',
           progress: Math.floor(Math.random() * 20 + 10)
         }
       ],
       chart_data: [
         {
-          title: "Published Project",
+          title: 'Published Project',
           level: Math.floor(Math.random() * 2),
-          progress_color: "bg-danger"
+          progress_color: 'bg-danger'
         },
         {
-          title: "Completed Task",
+          title: 'Completed Task',
           level: Math.floor(Math.random() * 2),
-          progress_color: "bg-primary"
+          progress_color: 'bg-primary'
         },
         {
-          title: "Successfull Task",
+          title: 'Successfull Task',
           level: Math.floor(Math.random() * 2),
-          progress_color: "bg-info"
+          progress_color: 'bg-info'
         },
         {
-          title: "Ongoing Project",
+          title: 'Ongoing Project',
           level: Math.floor(Math.random() * 2),
-          progress_color: "bg-warning"
+          progress_color: 'bg-warning'
         }
       ],
       browser: [
         {
-          name: "Apple Safari",
-          icon: "fa-google",
+          name: 'Apple Safari',
+          icon: 'fa-google',
           random: Math.floor(Math.random() * 2)
         },
         {
-          name: "Mozila Firefox",
-          icon: "fa-internet-explorer",
+          name: 'Mozila Firefox',
+          icon: 'fa-internet-explorer',
           random: Math.floor(Math.random() * 2)
         },
         {
-          name: "Internet Explorer",
-          icon: "fa-firefox",
+          name: 'Internet Explorer',
+          icon: 'fa-firefox',
           random: Math.floor(Math.random() * 2)
         },
         {
-          name: "Google Chrome",
-          icon: "fa-safari",
+          name: 'Google Chrome',
+          icon: 'fa-safari',
           random: Math.floor(Math.random() * 2)
         },
         {
-          name: "Opera mini",
-          icon: "fa-opera",
+          name: 'Opera mini',
+          icon: 'fa-opera',
           random: Math.floor(Math.random() * 2)
         }
       ],
       moment: moment,
-      date: "Daily",
+      date: 'Daily',
       dateNum: 1,
       allDateRange: [
-        { bigDate: "Daily", smallDate: "d", num: 1 },
-        { bigDate: "Weekly", smallDate: "w", num: 7 },
-        { bigDate: "Monthly", smallDate: "M", num: 30 },
-        { bigDate: "Yearly", smallDate: "y", num: 12 }
+        { bigDate: 'Daily', smallDate: 'd', num: 1 },
+        { bigDate: 'Weekly', smallDate: 'w', num: 7 },
+        { bigDate: 'Monthly', smallDate: 'M', num: 30 },
+        { bigDate: 'Yearly', smallDate: 'y', num: 12 }
       ],
       home_title_item: [
         {
-          title: "Total Profit",
-          pic: "fa-money-bill-wave",
-          bgc: "bg-danger"
+          title: 'Total Profit',
+          pic: 'fa-money-bill-wave',
+          bgc: 'bg-danger'
         },
         {
-          title: "Total Orders",
-          pic: "fa-list-alt",
-          bgc: "bg-primary"
+          title: 'Total Orders',
+          pic: 'fa-list-alt',
+          bgc: 'bg-primary'
         },
         {
-          title: "Average Price",
-          pic: "fa-dollar-sign",
-          bgc: "bg-info"
+          title: 'Average Price',
+          pic: 'fa-dollar-sign',
+          bgc: 'bg-info'
         },
         {
-          title: "Product Sold",
-          pic: "fa-check-circle",
-          bgc: "bg-success"
+          title: 'Product Sold',
+          pic: 'fa-check-circle',
+          bgc: 'bg-success'
         }
       ]
-    };
+    }
   },
   methods: {
     changeDate(bigDate, num) {
-      this.date = bigDate;
-      this.dateNum = num;
+      this.date = bigDate
+      this.dateNum = num
     }
   },
   computed: {
     chartdataloaded() {
       return {
-        labels: ["今天", "昨天", "一週前"], // 位於 x 軸的各筆數據 key
+        labels: ['今天', '昨天', '一週前'], // 位於 x 軸的各筆數據 key
         datasets: [
           {
             //label: "排名", // x 軸的標籤項目
-            backgroundColor: "rgba(0,0,0,0.1)",
-            data: ["2", "2", "2"], // 位於 y 軸對應的各筆數據 value
-            backgroundColor: ["#f87979", "green", "red"],
-            borderColor: ["red", "#f87979", "green"],
+            //backgroundColor: 'rgba(0,0,0,0.1)',
+            data: ['2', '2', '2'], // 位於 y 軸對應的各筆數據 value
+            backgroundColor: ['#f87979', 'green', 'red'],
+            borderColor: ['red', '#f87979', 'green'],
             borderWidth: 1,
-            pointHoverBorderColor: "#777",
+            pointHoverBorderColor: '#777',
             pointHoverBorderWidth: 3
           }
         ]
-      };
+      }
     }
   },
   components: {
     chart1,
     chart2
   }
-};
+}
 </script>

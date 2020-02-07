@@ -6,15 +6,14 @@
   </div>
 </template>
 
-
 <script>
-import navebar from '../components/navbar';
-import footers from '../components/footer';
+import navebar from '../components/navbar'
+import footers from '../components/footer'
 
 export default {
-  components:{
+  components: {
     navebar,
     footers
   }
-};
+}
 </script>

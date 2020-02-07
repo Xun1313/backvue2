@@ -1,6 +1,5 @@
 <template>
-  <div class="order">
-    <div class="countdown"></div>
+  <div class="order container-fluid">
     <div class="edit">
       <!-- option -->
       <div class="edit-option dropdown">
@@ -19,7 +18,9 @@
             v-for="item in optionItem"
             :key="item"
             @click="checkedHandler(item)"
-          >{{item}}</button>
+          >
+            {{ item }}
+          </button>
         </div>
       </div>
 
@@ -40,7 +41,9 @@
             v-for="item in statusItem"
             :key="item"
             @click="statusHandler(item)"
-          >{{item}}</button>
+          >
+            {{ item }}
+          </button>
         </div>
       </div>
 
@@ -52,15 +55,20 @@
             class="btn btn-secondary dropdown-toggle"
             data-toggle="dropdown"
             data-display="static"
-          >EDIT SECTION</button>
+          >
+            EDIT SECTION
+          </button>
           <div class="dropdown-menu dropdown-menu-lg-right">
             <button
-              class="dropdown-item"
+              class="dropdown-item edit-section-item"
               type="button"
               v-for="item in titleData"
               :key="item"
-              @click="dataHandler(item)"
-            >{{item}}</button>
+              @click="dataHandler(item, $event)"
+            >
+              <i class="fas fa-check" v-if="!isopen.includes(item)"></i>
+              <h5 class="edit-section-item-name">{{ item }}</h5>
+            </button>
           </div>
         </div>
       </div>
@@ -68,23 +76,24 @@
     <table class="table">
       <thead>
         <tr>
-          <template v-for="item in titleData">
-            <th v-if="!isopen.includes(item)">{{item}}</th>
+          <template v-for="(item, index) in titleData">
+            <th v-if="!isopen.includes(item)" :key="item + index">
+              {{ item }}
+            </th>
           </template>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in orderData" :key="item.status[0]+index">
+        <tr v-for="(item, index) in orderData" :key="item.status[0] + index">
           <td v-if="!isopen.includes('Order List')">
             <!-- Order List -->
             <input type="checkbox" v-model="item.ischecked" />
-            {{index}}
           </td>
 
           <td v-if="!isopen.includes('Customer')">
             <!-- Customer -->
-            <!-- {{$faker().name.firstName()}} -->
-            {{item.customer}}
+            {{ item.customer }}
           </td>
 
           <td v-if="!isopen.includes('productlist')">
@@ -92,64 +101,55 @@
             <div class="product">
               <div class="product-content">
                 <div class="product-detail">
-                  <!-- <p>{{$faker().commerce.product()}}</p>
-                  <p>${{Math.floor(Math.random()*950+50)}}</p>-->
-                  <p>{{item.productlistProduct1.name}}</p>
-                  <p>{{item.productlistProduct1.price}}</p>
+                  <p>{{ item.productlistProduct1.name }}</p>
+                  <p>${{ item.productlistProduct1.price | currency }}</p>
                 </div>
-                <!-- <div class="product-num">x{{Math.floor(Math.random()*3+1)}}</div> -->
-                <div class="product-num">x{{item.productlistProduct1.num}}</div>
+                <div class="product-num">
+                  x{{ item.productlistProduct1.num }}
+                </div>
               </div>
               <div class="product-content">
                 <div class="product-detail">
-                  <!-- <p>{{$faker().commerce.product()}}</p>
-                  <p>${{Math.floor(Math.random()*950+50)}}</p>-->
-                  <p>{{item.productlistProduct2.name}}</p>
-                  <p>{{item.productlistProduct2.price}}</p>
+                  <p>{{ item.productlistProduct2.name }}</p>
+                  <p>${{ item.productlistProduct2.price | currency }}</p>
                 </div>
-                <!-- <div class="product-num">x{{Math.floor(Math.random()*3+1)}}</div> -->
-                <div class="product-num">x{{item.productlistProduct2.num}}</div>
+                <div class="product-num">
+                  x{{ item.productlistProduct2.num }}
+                </div>
               </div>
             </div>
           </td>
 
           <td v-if="!isopen.includes('Total')">
             <!-- Total -->
-            <!-- ${{Math.floor(Math.random()*1000+500)}} -->
-            {{item.total}}
+            ${{ item.total | currency }}
           </td>
 
           <td v-if="!isopen.includes('Add to Cart')">
             <!-- Add to Cart -->
-            <!-- {{moment().subtract(Math.floor(Math.random()*365),'d').format('YYYY/MM/DD')}} -->
-            {{item.AddtoCart}}
+            {{ item.AddtoCart }}
           </td>
 
           <td v-if="!isopen.includes('Check-out')">
             <!-- Check-out -->
-            <!-- {{moment().subtract(Math.floor(Math.random()*365),'d').format('YYYY/MM/DD')}} -->
-            {{item.CheckOut}}
+            {{ item.CheckOut }}
           </td>
 
           <td v-if="!isopen.includes('Address')" class="beyond">
             <!-- Address -->
-            <!-- {{$faker().address.secondaryAddress()}} -->
-            {{item.address1}}
+            {{ item.address1 }}
             <br />
-            <!-- {{$faker().address.country()}} -->
-            {{item.address2}}
+            {{ item.address2 }}
           </td>
 
           <td v-if="!isopen.includes('Phone')">
             <!-- Phone -->
-            <!-- {{$faker().phone.phoneNumberFormat()}} -->
-            {{item.phone}}
+            {{ item.phone }}
           </td>
 
           <td v-if="!isopen.includes('Email')" class="beyond">
             <!-- Email -->
-            <!-- {{$faker().internet.exampleEmail()}} -->
-            {{item.email}}
+            {{ item.email }}
           </td>
 
           <td>
@@ -158,18 +158,86 @@
                 <button
                   type="button"
                   class="btn dropdown-toggle"
-                  :class="[item.status==='Paid'?'btn-success':'',item.status==='Unpaid'?'btn-secondary':'',item.status==='Shipping'?'btn-warning':'',item.status==='Done'?'btn-primary':'']"
+                  :class="[
+                    item.status === 'Paid' ? 'btn-success' : '',
+                    item.status === 'Unpaid' ? 'btn-secondary' : '',
+                    item.status === 'Shipping' ? 'btn-warning' : '',
+                    item.status === 'Done' ? 'btn-primary' : ''
+                  ]"
                   data-toggle="dropdown"
                   data-display="static"
-                >{{item.status}}</button>
+                >
+                  {{ item.status }}
+                </button>
                 <div class="dropdown-menu dropdown-menu-lg-right">
                   <button
                     class="dropdown-item"
                     type="button"
-                    @click="item.status=status"
+                    @click="item.status = status"
                     v-for="status in statusItem"
                     :key="status"
-                  >{{status}}</button>
+                  >
+                    {{ status }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-toggle="modal"
+              :data-target="`#deleteModal${index}`"
+            >
+              delete
+            </button>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              :id="`deleteModal${index}`"
+              data-backdrop="static"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="deleteModal"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      再次確定
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <h5 class="text-left">確定刪除此訂單?</h5>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-dismiss="modal"
+                      @click="deleteProduct(item.id)"
+                    >
+                      Confirm
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -181,59 +249,57 @@
 </template>
 
 <script>
-var moment = require("moment");
-var faker = require("faker");
-const statusItem = ["Paid", "Unpaid", "Shipping", "Done"];
+var moment = require('moment')
+var faker = require('faker')
+const statusItem = ['Paid', 'Unpaid', 'Shipping', 'Done']
 export default {
-  //勾選  isopen
-  //改狀態  有isope有是true的才能改狀態
-  //隱藏td
   data() {
     return {
       isopen: [],
       titleData: [
-        "Order List",
-        "Customer",
-        "Product List",
-        "Total",
-        "Add to Cart",
-        "Check-out",
-        "Address",
-        "Phone",
-        "Email",
-        "Status"
+        'Order List',
+        'Customer',
+        'Product List',
+        'Total',
+        'Add to Cart',
+        'Check-out',
+        'Address',
+        'Phone',
+        'Email',
+        'Status'
       ],
       optionItem: [
-        "Select All",
-        "Unselect All",
-        "Paid",
-        "Unpaid",
-        "Shipping",
-        "Done"
+        'Select All',
+        'Unselect All',
+        'Paid',
+        'Unpaid',
+        'Shipping',
+        'Done'
       ],
-      statusItem: ["Paid", "Unpaid", "Shipping", "Done"],
+      statusItem: ['Paid', 'Unpaid', 'Shipping', 'Done'],
       orderData: [
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'coat',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'leather jacket',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -242,24 +308,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'hoodies',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'trench coat',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -268,24 +335,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'jacket',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'sweater',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -294,24 +362,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'vest',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'business suit',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -320,24 +389,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'suit',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'blouse',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -346,24 +416,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'coat',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'leather jacket',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -372,24 +443,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'hoodies',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'trench coat ',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -398,24 +470,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'jacket',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'sweater',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -424,24 +497,25 @@ export default {
         {
           status: statusItem[Math.floor(Math.random() * 4)],
           ischecked: false,
+          id: faker.random.uuid(),
           customer: faker.name.findName(),
           productlistProduct1: {
-            name: faker.commerce.product(),
+            name: 'business suit',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           productlistProduct2: {
-            name: faker.commerce.product(),
+            name: 'vest',
             price: Math.floor(Math.random() * 950 + 50),
             num: Math.floor(Math.random() * 3 + 1)
           },
           total: Math.floor(Math.random() * 1000 + 500),
           AddtoCart: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           CheckOut: moment()
-            .subtract(Math.floor(Math.random() * 365), "d")
-            .format("YYYY/MM/DD"),
+            .subtract(Math.floor(Math.random() * 365), 'd')
+            .format('YYYY/MM/DD'),
           address1: faker.address.secondaryAddress(),
           address2: faker.address.country(),
           phone: faker.phone.phoneNumberFormat(),
@@ -449,49 +523,82 @@ export default {
         }
       ],
       moment: moment
-    };
+    }
   },
   methods: {
     checkedHandler(val) {
-      if (val === "Select All") {
+      if (val === 'Select All') {
         this.orderData.forEach(e => {
-          e.ischecked = true;
-        });
-      } else if (val === "Unselect All") {
+          e.ischecked = true
+        })
+      } else if (val === 'Unselect All') {
         this.orderData.forEach(e => {
-          e.ischecked = false;
-        });
+          e.ischecked = false
+        })
       } else {
         this.orderData.forEach(e => {
-          e.status === val ? (e.ischecked = true) : (e.ischecked = false);
-        });
+          e.status === val ? (e.ischecked = true) : (e.ischecked = false)
+        })
       }
     },
     statusHandler(val) {
       this.orderData.forEach(e => {
-        e.ischecked ? (e.status = val) : "";
-        e.ischecked = false;
-      });
+        e.ischecked ? (e.status = val) : ''
+        e.ischecked = false
+      })
     },
-    dataHandler(val) {
+    dataHandler(val, e) {
       //isopen裡有該title就要隱藏,沒有就要出現
       if (this.isopen.includes(val)) {
-        this.isopen.splice(this.isopen.indexOf(val), 1);
+        e.currentTarget.childNodes[1].style.marginLeft = '10px'
+        this.isopen.splice(this.isopen.indexOf(val), 1)
       } else {
-        this.isopen.push(val);
+        e.currentTarget.childNodes[1].style.marginLeft = '30px'
+        this.isopen.push(val)
+      }
+    },
+    deleteProduct(id) {
+      if (id) {
+        this.orderData.forEach((e, i) => {
+          e.id === id ? this.orderData.splice(i, 1) : ''
+        })
+      }
+      this.resetTemp()
+    },
+    resetTemp() {
+      this.tempProduct = {
+        product: {
+          imgUrl: '',
+          name: ''
+        },
+        original: '',
+        discount: '',
+        detail: [
+          {
+            size: 'L',
+            specification: [
+              {
+                color: 'Red',
+                inventory: '10'
+              }
+            ]
+          },
+          {
+            size: 'L',
+            specification: [
+              {
+                color: 'Red',
+                inventory: '10'
+              }
+            ]
+          }
+        ],
+        status: '',
+        ischecked: false
       }
     }
   }
-  /* watch: {
-    ['titleData.isopen']:{
-      handler(val,oldVal){
-        this.orderData.forEach(e=>{
-          e.isopen=false
-        })
-      },
-    }
-  }, */
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -514,8 +621,6 @@ export default {
 tr th,
 tr td {
   text-align: center;
-  margin-top: auto;
-  margin-bottom: auto;
   vertical-align: middle;
 }
 
@@ -528,8 +633,8 @@ tr td {
 .order {
   //overflow: hidden;
   font-size: 16px;
-  width: 95%;
   margin: auto;
+  overflow: auto;
 }
 .edit {
   display: flex;
@@ -539,6 +644,17 @@ tr td {
   }
   &-status {
     margin-right: auto;
+  }
+  &-section {
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 30px;
+      &-name {
+        margin: 0 0 0 10px;
+        font-size: 20px;
+      }
+    }
   }
 }
 .dropdown-item:active {

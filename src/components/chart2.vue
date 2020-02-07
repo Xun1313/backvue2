@@ -5,46 +5,46 @@
 </template>
 
 <script>
-import Chart from "chart.js";
+import Chart from 'chart.js'
 export default {
   data() {
-    return {};
+    return {}
   },
-  props: ["device"],
+  props: ['device'],
   methods: {
     createChart() {
-      const myChart = document.querySelector(".myChart2").getContext("2d");
-      const chart = new Chart(myChart, {
-        type: "doughnut",
+      const myChart = document.querySelector('.myChart2').getContext('2d')
+      new Chart(myChart, {
+        type: 'doughnut',
         data: {
           labels: this.device.map(e => {
-            return e.model;
+            return e.model
           }),
           datasets: [
             {
               data: this.device.map(e => {
-                return e.progress;
+                return e.progress
               }),
-              backgroundColor: ["red", "blue", "green", "purple", "orange"],
+              backgroundColor: ['red', 'blue', 'green', 'purple', 'orange']
             }
           ]
         },
         options: {
           maintainAspectRatio: false,
           legend: {
-            position: "right",
+            position: 'right',
             labels: {
-              fontSize:15
+              fontSize: 15
             }
           }
         }
-      });
+      })
     }
   },
   mounted() {
-    this.createChart();
+    this.createChart()
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,13 +1,14 @@
 <template>
-<footer>僅供作業使用</footer>
+  <footer>僅供作業使用</footer>
 </template>
 
 <style lang="scss" scoped>
-footer{
+footer {
   margin-top: 30px;
   padding: 50px;
-  background-color: rgb(226, 207, 181);
+  color: white;
+  background-color: rgb(41, 32, 32);
   font-weight: bold;
-  text-align: center
+  text-align: center;
 }
 </style>

@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import Chart from "chart.js";
-var moment = require("moment");
+import Chart from 'chart.js'
+var moment = require('moment')
 /* Chart.defaults.global.defaultFontColor = "red";
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 30;
@@ -17,24 +17,24 @@ export default {
       moment: moment,
       dateArr: [],
       valueArr: []
-    };
+    }
   },
-  props: ["date", "dateNum"],
+  props: ['date', 'dateNum'],
   methods: {
     createChart() {
-      const myChart = document.querySelector(".myChart").getContext("2d");
-      const chart = new Chart(myChart, {
-        type: "bar",
+      const myChart = document.querySelector('.myChart').getContext('2d')
+      new Chart(myChart, {
+        type: 'bar',
         data: {
-          labels: this.dateArr,//x 軸的key
+          labels: this.dateArr, //x 軸的key
           datasets: [
             {
               //label: [1, 2, 3, 4], // 圖表標題legends要顯示的東西,可用display開關
               data: this.valueArr, //  各筆數據的value
               //backgroundColor: ["#f87979", "green", "red", "purple"],
-              backgroundColor: "green",
+              backgroundColor: 'green',
               //borderColor: ["red", "#f87979", "green", "orange"],
-              borderWidth: 1,
+              borderWidth: 1
               //hoverBorderWidth: 5,
               //hoverBackgroundColor: "black",
             }
@@ -44,14 +44,14 @@ export default {
           maintainAspectRatio: false,
           title: {
             display: true,
-            text: "ALL EXPENSES",
+            text: 'ALL EXPENSES',
             fontSize: 25
           },
           legend: {
             display: false,
-            position: "right",
+            position: 'right',
             labels: {
-              fontColor: "black"
+              fontColor: 'black'
             }
           },
           layout: {
@@ -71,7 +71,7 @@ export default {
                 //position:'right',
                 ticks: {
                   beginAtZero: true,
-                  fontSize:15
+                  fontSize: 15
                 }
               }
             ],
@@ -79,13 +79,13 @@ export default {
               {
                 //position:'right',
                 ticks: {
-                  fontSize:15
+                  fontSize: 15
                 }
               }
             ]
           }
         }
-      });
+      })
 
       /* let chart = new Chart(myChart, {
         type: "bar",
@@ -115,45 +115,45 @@ export default {
         if (this.dateNum === 12) {
           this.dateArr.push(
             moment()
-              .subtract(i, "M")
-              .format("MM") + "月"
-          );
+              .subtract(i, 'M')
+              .format('MM') + '月'
+          )
         } else {
           this.dateArr.push(
             moment()
-              .subtract(i, "d")
-              .format("MM-DD")
-          );
+              .subtract(i, 'd')
+              .format('MM-DD')
+          )
         }
-        this.valueArr.push(Math.floor(Math.random() * 5000 + 5000));
+        this.valueArr.push(Math.floor(Math.random() * 5000 + 5000))
       }
-      this.dateArr.reverse();
+      this.dateArr.reverse()
     },
     refreshChart() {
-      this.dateArr = [];
-      this.days();
-      document.querySelector(".myChart").remove();
-      document.querySelector(".chartjs-size-monitor").remove();
-      const canvas = document.createElement("canvas");
-      canvas.classList.add("myChart");
-      document.querySelector(".firstChart").appendChild(canvas);
-      this.createChart();
+      this.dateArr = []
+      this.days()
+      document.querySelector('.myChart').remove()
+      document.querySelector('.chartjs-size-monitor').remove()
+      const canvas = document.createElement('canvas')
+      canvas.classList.add('myChart')
+      document.querySelector('.firstChart').appendChild(canvas)
+      this.createChart()
     }
   },
   mounted() {
-    this.days();
-    this.createChart();
+    this.days()
+    this.createChart()
   },
   watch: {
     dateNum() {
-      this.refreshChart();
+      this.refreshChart()
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-.firstChart{
+.firstChart {
   width: 75%;
 }
 </style>

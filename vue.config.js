@@ -1,3 +1,3 @@
-module.exports={
-  publicPath:'/backvue2/dist'
+module.exports = {
+  publicPath: '/HARPER/dist'
 }

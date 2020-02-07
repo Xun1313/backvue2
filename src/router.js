@@ -1,8 +1,8 @@
-import Vue from "vue";
-import Router from "vue-router";
+import Vue from 'vue'
+import Router from 'vue-router'
 import dashboard from './views/dashboard.vue'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   routes: [
@@ -14,19 +14,22 @@ export default new Router({
         {
           path: '',
           name: 'home',
-          component: () => import(/* webpackChunkName: "home" */ './views/home.vue'),
+          component: () =>
+            import(/* webpackChunkName: "home" */ './views/home.vue')
         },
         {
           path: '/order',
           name: 'order',
-          component: () => import(/* webpackChunkName: "order" */ './views/order.vue'),
+          component: () =>
+            import(/* webpackChunkName: "order" */ './views/order.vue')
         },
         {
           path: '/product',
           name: 'product',
-          component: () => import(/* webpackChunkName: "product" */ './views/product.vue'),
-        },
-      ],
-    },
-  ],
+          component: () =>
+            import(/* webpackChunkName: "product" */ './views/product.vue')
+        }
+      ]
+    }
+  ]
 })

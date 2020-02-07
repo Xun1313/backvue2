@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "fix": "vue-cli-service lint --fix"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -39,7 +40,23 @@
       "plugin:vue/essential",
       "@vue/prettier"
     ],
-    "rules": {},
+    "rules": {
+      "no-console": "off",
+      "no-self-assign": [
+        "error",
+        {
+          "props": false
+        }
+      ],
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "semi": false,
+          "trailingComma": "none"
+        }
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
