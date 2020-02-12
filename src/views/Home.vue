@@ -58,7 +58,6 @@
       </div>
     </div>
 
-    <!-- <chart1 :chart-data="chartdataloaded" /> -->
     <section class="chart">
       <chart1 :date="date" :dateNum="dateNum" class="chart1"></chart1>
       <div class="chart-items">
@@ -100,10 +99,6 @@
             <chart2 :device="device"></chart2>
           </div>
           <div class="device-content-data">
-            <!-- <div class="device-content-data-title">
-              <div class="title1">Device</div>
-              <div class="title2">Progress</div>
-            </div>-->
             <table class="table device-content-data-value">
               <thead>
                 <tr>
@@ -118,10 +113,6 @@
                 </tr>
               </tbody>
             </table>
-            <!-- <div class="device-content-data-value" >
-              <div class="model">{{item.model}}</div>
-              <div class="progresses">{{item.progress}}%</div>
-            </div>-->
           </div>
         </div>
       </div>
@@ -488,25 +479,6 @@ export default {
     changeDate(bigDate, num) {
       this.date = bigDate
       this.dateNum = num
-    }
-  },
-  computed: {
-    chartdataloaded() {
-      return {
-        labels: ['今天', '昨天', '一週前'], // 位於 x 軸的各筆數據 key
-        datasets: [
-          {
-            //label: "排名", // x 軸的標籤項目
-            //backgroundColor: 'rgba(0,0,0,0.1)',
-            data: ['2', '2', '2'], // 位於 y 軸對應的各筆數據 value
-            backgroundColor: ['#f87979', 'green', 'red'],
-            borderColor: ['red', '#f87979', 'green'],
-            borderWidth: 1,
-            pointHoverBorderColor: '#777',
-            pointHoverBorderWidth: 3
-          }
-        ]
-      }
     }
   },
   components: {
